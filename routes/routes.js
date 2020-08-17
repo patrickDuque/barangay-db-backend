@@ -6,10 +6,26 @@ const upload = require('../helpers/multer');
 
 // Controllers
 const profilesController = require('../controllers/profilesController');
+const userController = require('../controllers/userController');
+
+/* ===============================================================
+												PROFILES ROUTES
+================================================================== */
+router.get('/profiles/', profilesController.getAllProfiles);
+router.get('/profiles/:profileId', profilesController.findProfile);
+router.post('/profiles/', upload.single('picture'), profilesController.postProfile);
+router.put('/profiles/:profileId', upload.single('picture'), profilesController.editProfile);
+router.delete('/profiles/:profileId', profilesController.deleteProfile);
+
+/* ===============================================================
+												PROFILES ROUTES
+================================================================== */
+router.post('/signup', userController.signup);
+router.post('/signin', userController.signin);
 
 /* ===============================================================
 												GENERAL ROUTES
-=============================================================== */
+================================================================== */
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'BARANGAY DATABASE' });
 });
@@ -26,14 +42,5 @@ router.use((error, req, res, next) => {
     }
   });
 });
-
-/* ===============================================================
-												PROFILES ROUTES
-=============================================================== */
-router.get('/profiles/', profilesController.getAllProfiles);
-router.get('/profiles/:profileId', profilesController.findProfile);
-router.post('/profiles/', upload.single('picture'), profilesController.postProfile);
-router.put('/profiles/:profileId', upload.single('picture'), profilesController.editProfile);
-router.delete('/profiles/:profileId', profilesController.deleteProfile);
 
 module.exports = router;

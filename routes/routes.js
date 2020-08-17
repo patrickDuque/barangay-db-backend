@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Helpers
 const upload = require('../helpers/multer');
+const auth = require('../helpers/auth');
 
 // Controllers
 const profilesController = require('../controllers/profilesController');
@@ -11,11 +12,11 @@ const userController = require('../controllers/userController');
 /* ===============================================================
 												PROFILES ROUTES
 ================================================================== */
-router.get('/profiles/', profilesController.getAllProfiles);
-router.get('/profiles/:profileId', profilesController.findProfile);
-router.post('/profiles/', upload.single('picture'), profilesController.postProfile);
-router.put('/profiles/:profileId', upload.single('picture'), profilesController.editProfile);
-router.delete('/profiles/:profileId', profilesController.deleteProfile);
+router.get('/profiles/', auth, profilesController.getAllProfiles);
+router.get('/profiles/:profileId', auth, profilesController.findProfile);
+router.post('/profiles/', auth, upload.single('picture'), profilesController.postProfile);
+router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
+router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
 
 /* ===============================================================
 												PROFILES ROUTES

@@ -14,22 +14,19 @@ const userController = require('../controllers/userController');
 ================================================================== */
 router.get('/profiles/', auth, profilesController.getAllProfiles);
 router.get('/profiles/:profileId', auth, profilesController.findProfile);
-router.post('/profiles/', auth, upload.single('picture'), profilesController.postProfile);
+router.post('/profiles', auth, upload.single('picture'), profilesController.postProfile);
 router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
 router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
 
 /* ===============================================================
 												PROFILES ROUTES
 ================================================================== */
-router.post('/signup', userController.signup);
+router.post('/signup', auth, userController.signup);
 router.post('/signin', userController.signin);
 
 /* ===============================================================
 												GENERAL ROUTES
 ================================================================== */
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'BARANGAY DATABASE' });
-});
 router.use((req, res, next) => {
   const error = new Error('Not found');
   error.status = 404;

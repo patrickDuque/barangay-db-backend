@@ -64,7 +64,7 @@ exports.editProfile = async (req, res) => {
 exports.findProfile = async (req, res) => {
   try {
     const id = req.params.profileId;
-    const profile = Profiles.findById(id);
+    const profile = await Profiles.findById(id);
     res.status(200).json({ message: 'Successfully fetched profile', profile });
   } catch (error) {
     res.status(500).json({ error: { message: 'Error fetching profile', error: error.message } });

@@ -31,7 +31,7 @@ exports.signin = async (req, res) => {
     }
     bcrypt.compare(password, user.password, (err, result) => {
       if (err) {
-        return res.status(500).json({ error: { message: 'Error loggin in... Please try again', error: err.message } });
+        return res.status(500).json({ error: { message: 'Error logging in... Please try again', error: err.message } });
       } else if (result) {
         const { username, _id } = user;
         const token = jwt.sign({ email: username, id: _id }, process.env.JWT_KEY, { expiresIn: 60 * 60 * 8 });
@@ -41,6 +41,6 @@ exports.signin = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: { message: 'Error loggin in... Please try again', error: error.message } });
+    res.status(500).json({ error: { message: 'Error logging in... Please try again', error: error.message } });
   }
 };

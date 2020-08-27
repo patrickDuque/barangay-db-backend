@@ -8,6 +8,7 @@ const auth = require('../helpers/auth');
 // Controllers
 const profilesController = require('../controllers/profilesController');
 const userController = require('../controllers/userController');
+const businessController = require('../controllers/businessesController');
 
 /* ===============================================================
 												PROFILES ROUTES
@@ -17,6 +18,13 @@ router.get('/profiles/:profileId', auth, profilesController.findProfile);
 router.post('/profiles', auth, upload.single('picture'), profilesController.postProfile);
 router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
 router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
+
+/* ===============================================================
+												BUSINESS ROUTES
+================================================================== */
+router.get('/business', businessController.getAllBusinesses);
+router.post('/business', upload.single('picture'), businessController.postBusiness);
+router.delete('/business/:businessId', businessController.deleteBusiness);
 
 /* ===============================================================
 												PROFILES ROUTES

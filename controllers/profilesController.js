@@ -1,4 +1,5 @@
 const Profiles = require('../models/profiles');
+const fs = require('fs');
 
 exports.getAllProfiles = async (req, res) => {
   try {
@@ -40,7 +41,10 @@ exports.postProfile = async (req, res) => {
 exports.deleteProfile = async (req, res) => {
   try {
     const id = req.params.profileId;
-    await Profiles.findByIdAndDelete(id);
+    const profile = await Profiles.findByIdAndDelete(id);
+    fs.unlink(`uploads/${profile.picture}`, err => {
+      if (err) console.log(err);
+    });
     res.status(201).json({ message: 'Successfully deleted profile' });
   } catch (error) {
     res.status(500).json({ error: { message: 'Error deleting profile', error: error.message } });

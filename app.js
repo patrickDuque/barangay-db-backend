@@ -11,8 +11,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 mongoose
   .connect(
-    `mongodb+srv://barangaypandayan:${process.env
-      .MONGODBPASSWORD}@database.gnpj4.mongodb.net/database?retryWrites=true&w=majority`,
+    `mongodb+srv://patrick_duque:${process.env
+      .MONGODBPASSWORD}@node-cluster-ysxsh.mongodb.net/node-cluster?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
   .then(() => console.log('connected'))

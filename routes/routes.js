@@ -13,7 +13,7 @@ const businessController = require('../controllers/businessesController');
 /* ===============================================================
 												PROFILES ROUTES
 ================================================================== */
-router.get('/profiles/', auth, profilesController.getAllProfiles);
+router.get('/profiles/', profilesController.getAllProfiles);
 router.get('/profiles/:profileId', auth, profilesController.findProfile);
 router.post('/profiles', auth, upload.single('picture'), profilesController.postProfile);
 router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
@@ -23,8 +23,8 @@ router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
 												BUSINESS ROUTES
 ================================================================== */
 router.get('/business', businessController.getAllBusinesses);
-router.post('/business', upload.single('picture'), businessController.postBusiness);
-router.delete('/business/:businessId', businessController.deleteBusiness);
+router.post('/business', auth, upload.single('picture'), businessController.postBusiness);
+router.delete('/business/:businessId', auth, businessController.deleteBusiness);
 
 /* ===============================================================
 												PROFILES ROUTES

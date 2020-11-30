@@ -16,15 +16,15 @@ const businessController = require('../controllers/businessesController');
 router.get('/profiles/', profilesController.getAllProfiles);
 router.get('/profiles/:profileId', profilesController.findProfile);
 router.post('/profiles', upload.single('picture'), profilesController.postProfile);
-router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
-router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
+router.put('/profiles/:profileId', upload.single('picture'), profilesController.editProfile);
+router.delete('/profiles/:profileId', profilesController.deleteProfile);
 
 /* ===============================================================
 												BUSINESS ROUTES
 ================================================================== */
 router.get('/business', businessController.getAllBusinesses);
-router.post('/business', auth, upload.single('picture'), businessController.postBusiness);
-router.delete('/business/:businessId', auth, businessController.deleteBusiness);
+router.post('/business', upload.single('picture'), businessController.postBusiness);
+router.delete('/business/:businessId', businessController.deleteBusiness);
 
 /* ===============================================================
 												PROFILES ROUTES

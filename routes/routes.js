@@ -14,8 +14,8 @@ const businessController = require('../controllers/businessesController');
 												PROFILES ROUTES
 ================================================================== */
 router.get('/profiles/', profilesController.getAllProfiles);
-router.get('/profiles/:profileId', auth, profilesController.findProfile);
-router.post('/profiles', auth, upload.single('picture'), profilesController.postProfile);
+router.get('/profiles/:profileId', profilesController.findProfile);
+router.post('/profiles', upload.single('picture'), profilesController.postProfile);
 router.put('/profiles/:profileId', auth, upload.single('picture'), profilesController.editProfile);
 router.delete('/profiles/:profileId', auth, profilesController.deleteProfile);
 

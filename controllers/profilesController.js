@@ -1,5 +1,13 @@
 const Profiles = require('../models/profiles');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3({
+  accessKeyId     : 'AKIAJEYWCSWLBJRLWU3A',
+  secretAccessKey : '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'
+});
 
 exports.getAllProfiles = async (req, res) => {
   try {
@@ -16,22 +24,37 @@ exports.postProfile = async (req, res) => {
       return res.status(500).json({ error: { message: 'Please add a valid image' } });
     }
     const { name, address, contactNumber, age, sex, birthday, birthplace, sector, occupation, transfer } = req.body;
-    const picture = req.file.filename;
-    const profile = new Profiles({
-      name,
-      address,
-      contactNumber,
-      birthday,
-      sex,
-      age,
-      picture,
-      birthplace,
-      sector,
-      occupation,
-      transfer
+    const picture = req.file.buffer;
+    let myFile = req.file.originalname.split('.');
+    const fileType = myFile[myFile.length - 1];
+
+    const params = {
+      Bucket      : 'brgybackend',
+      Key         : `${uuidv4()}.${fileType}`,
+      Body        : picture,
+      ContentType : 'image/jpeg'
+    };
+    s3.upload(params, async (err, data) => {
+      if (err) {
+        res.status(500).send(error);
+      }
+      const profile = new Profiles({
+        name,
+        address,
+        contactNumber,
+        birthday,
+        sex,
+        age,
+        picture       : data.Location,
+        birthplace,
+        sector,
+        occupation,
+        transfer
+      });
+      const newProfile = await profile.save();
+      res.status(201).json({ message: 'Successfully created new profile', profile: newProfile });
+      console.log(`file uploaded successfully ${data.Location}`);
     });
-    const newProfile = await profile.save();
-    res.status(201).json({ message: 'Successfully created new profile', profile: newProfile });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: { message: 'Error creating new profile', error: error.message } });
@@ -41,11 +64,20 @@ exports.postProfile = async (req, res) => {
 exports.deleteProfile = async (req, res) => {
   try {
     const id = req.params.profileId;
-    const profile = await Profiles.findByIdAndDelete(id);
-    fs.unlink(`uploads/${profile.picture}`, err => {
-      if (err) console.log(err);
-    });
-    res.status(201).json({ message: 'Successfully deleted profile' });
+    const profile = await Profiles.findById(id);
+    console.log(profile);
+    console.log(profile.picture.split('.com/')[1]);
+    s3.deleteObject(
+      {
+        Bucket : 'brgybackend',
+        Key    : profile.picture.split('.com/')[1]
+      },
+      async (err, data) => {
+        console.log(data);
+        await Profiles.findByIdAndDelete(id);
+        res.status(201).json({ message: 'Successfully deleted profile' });
+      }
+    );
   } catch (error) {
     res.status(500).json({ error: { message: 'Error deleting profile', error: error.message } });
   }

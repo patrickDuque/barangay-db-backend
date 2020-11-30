@@ -21,6 +21,7 @@ exports.getAllProfiles = async (req, res) => {
 exports.postProfile = async (req, res) => {
   try {
     if (!req.file) {
+      console.log('no image');
       return res.status(500).json({ error: { message: 'Please add a valid image' } });
     }
     const { name, address, contactNumber, age, sex, birthday, birthplace, sector, occupation, transfer } = req.body;

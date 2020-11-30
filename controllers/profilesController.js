@@ -1,13 +1,7 @@
 const Profiles = require('../models/profiles');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-
-const AWS = require('aws-sdk');
-
-const s3 = new AWS.S3({
-  accessKeyId     : 'AKIAJEYWCSWLBJRLWU3A',
-  secretAccessKey : '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'
-});
+const s3 = require('../helpers/aws');
 
 exports.getAllProfiles = async (req, res) => {
   try {
@@ -37,7 +31,8 @@ exports.postProfile = async (req, res) => {
     };
     s3.upload(params, async (err, data) => {
       if (err) {
-        res.status(500).send(error);
+        console.log(err);
+        res.status(500).send(err);
       }
       const profile = new Profiles({
         name,

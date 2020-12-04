@@ -9,6 +9,7 @@ const auth = require('../helpers/auth');
 const profilesController = require('../controllers/profilesController');
 const userController = require('../controllers/userController');
 const businessController = require('../controllers/businessesController');
+const tricyclesController = require('../controllers/tricyclesController');
 
 /* ===============================================================
 												PROFILES ROUTES
@@ -27,7 +28,14 @@ router.post('/business', upload.single('picture'), businessController.postBusine
 router.delete('/business/:businessId', businessController.deleteBusiness);
 
 /* ===============================================================
-												PROFILES ROUTES
+												TRICYCLES ROUTES
+================================================================== */
+router.get('/tricycle', tricyclesController.getAllTricycles);
+router.post('/tricycle', upload.single('picture'), tricyclesController.postTricycles);
+router.delete('/tricycle/:tricycleId', tricyclesController.deleteTricycles);
+
+/* ===============================================================
+												AUTH ROUTES
 ================================================================== */
 router.post('/signup', auth, userController.signup);
 router.post('/signin', userController.signin);

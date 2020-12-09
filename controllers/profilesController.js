@@ -24,7 +24,7 @@ exports.postProfile = async (req, res) => {
     const fileType = myFile[myFile.length - 1];
 
     const params = {
-      Bucket      : 'brgybackend',
+      Bucket      : 'barangaybackend',
       Key         : `${uuidv4()}.${fileType}`,
       Body        : picture,
       ContentType : 'image/jpeg'
@@ -65,7 +65,7 @@ exports.deleteProfile = async (req, res) => {
     console.log(profile.picture.split('.com/')[1]);
     s3.deleteObject(
       {
-        Bucket : 'brgybackend',
+        Bucket : 'barangaybackend',
         Key    : profile.picture.split('.com/')[1]
       },
       async (err, data) => {

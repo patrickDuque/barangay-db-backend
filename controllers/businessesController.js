@@ -22,7 +22,7 @@ exports.postBusiness = async (req, res) => {
     const fileType = myFile[myFile.length - 1];
 
     const params = {
-      Bucket      : 'brgybackend',
+      Bucket      : 'barangaybackend',
       Key         : `${uuidv4()}.${fileType}`,
       Body        : picture,
       ContentType : 'image/jpeg'
@@ -56,7 +56,7 @@ exports.deleteBusiness = async (req, res) => {
     const business = await Business.findById(id);
     s3.deleteObject(
       {
-        Bucket : 'brgybackend',
+        Bucket : 'barangaybackend',
         Key    : business.picture.split('.com/')[1]
       },
       async (err, data) => {

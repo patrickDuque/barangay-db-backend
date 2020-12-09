@@ -33,7 +33,7 @@ exports.postTricycles = async (req, res) => {
     const fileType = myFile[myFile.length - 1];
 
     const params = {
-      Bucket      : 'brgybackend',
+      Bucket      : 'barangaybackend',
       Key         : `${uuidv4()}.${fileType}`,
       Body        : picture,
       ContentType : 'image/jpeg'
@@ -71,7 +71,7 @@ exports.deleteTricycles = async (req, res) => {
     const tricycle = await Tricycle.findById(id);
     s3.deleteObject(
       {
-        Bucket : 'brgybackend',
+        Bucket : 'barangaybackend',
         Key    : tricycle.picture.split('.com/')[1]
       },
       async (err, data) => {
